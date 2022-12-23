@@ -56,3 +56,5 @@ Just replace the `uses` line in your `Pest.php` file
 -uses(RefreshDatabase::class)->in(__DIR__);
 +uses(FastRefreshDatabase::class)->in(__DIR__);
 ```
+
+Copyright (c) 2022 Plannr Technologies Ltd
