@@ -13,15 +13,10 @@ When you don't make any changes, it will continue to use the same database witho
 ## Benchmarks
 Running a single test, with about 400 migrations.
 
-### Intel i5 Processor
-Before: 30 seconds
-
-After: 100ms (Baseline)
-
-### Apple M1 Pro
-Before: 5 seconds
-
-After: 100ms (Baseline)
+| Processor     | Before     | After |
+|---------------|------------|-------|
+| Intel Core i5 | 30 seconds | 100 milliseconds |
+| Apple M1 Pro  | 5 seconds  | 100 milliseconds |
 
 ## Installation
 
