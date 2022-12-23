@@ -1,6 +1,6 @@
 <?php
 
-namespace Plannrc\LaravelFastRefreshDatabase\Traits;
+namespace Plannr\Laravel\FastRefreshDatabase\Traits;
 
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
@@ -8,7 +8,7 @@ use Symfony\Component\Process\Process;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
-use Plannrc\LaravelFastRefreshDatabase\Data\FastRefreshDatabaseState;
+use Plannr\Laravel\FastRefreshDatabase\Data\FastRefreshDatabaseState;
 
 trait FastRefreshDatabase
 {

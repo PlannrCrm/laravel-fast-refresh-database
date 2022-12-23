@@ -34,15 +34,15 @@ Next, just replace the existing `RefreshDatabase` trait you are using in your Te
 
 namespace Tests;
 
--use Illuminate\Foundation\Testing\RefreshDatabase;
-+use App\Tests\Traits\FastRefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+-use Illuminate\Foundation\Testing\RefreshDatabase;
++use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-+   use FastRefreshDatabase;
 -   use RefreshDatabase;
++   use FastRefreshDatabase;
 }
 ```
 
@@ -51,7 +51,7 @@ Just replace the `uses` line in your `Pest.php` file
 
 ```diff
 -use Illuminate\Foundation\Testing\RefreshDatabase;
-+use App\Tests\Traits\FastRefreshDatabase;
++use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 
 -uses(RefreshDatabase::class)->in(__DIR__);
 +uses(FastRefreshDatabase::class)->in(__DIR__);

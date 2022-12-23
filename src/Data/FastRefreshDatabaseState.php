@@ -1,6 +1,6 @@
 <?php
 
-namespace Plannrc\LaravelFastRefreshDatabase\Data;
+namespace Plannr\Laravel\FastRefreshDatabase\Data;
 
 class FastRefreshDatabaseState
 {
