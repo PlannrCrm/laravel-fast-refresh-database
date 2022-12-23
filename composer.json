@@ -1,11 +1,16 @@
 {
     "name": "plannr/laravel-fast-refresh-database",
-    "description": "Refresh your database faster than you've ever seen before 🚀",
+    "description": "Refresh your tests/database faster than you've ever seen before \uD83D\uDE80",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
             "Plannr\\Laravel\\FastRefreshDatabase\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Plannr\\Laravel\\FastRefreshDatabase\\Tests\\": "tests/"
         }
     },
     "authors": [

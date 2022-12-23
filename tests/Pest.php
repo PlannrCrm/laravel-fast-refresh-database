@@ -11,7 +11,6 @@
 |
 */
 
+use Plannr\Laravel\FastRefreshDatabase\Tests\TestCase;
 
-use Plannrc\LaravelFastRefreshDatabase\Traits\FastRefreshDatabase;
-
-uses(FastRefreshDatabase::class)->in(__DIR__);
+uses(TestCase::class)->in(__DIR__);
