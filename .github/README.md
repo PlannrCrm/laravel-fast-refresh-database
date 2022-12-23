@@ -29,7 +29,7 @@ composer require plannr/laravel-fast-refresh-database
 ## Adding to your TestCase
 Next, just replace the existing `RefreshDatabase` trait you are using in your TestCase file with the `FastRefreshDatabase` trait
 
-```php
+```diff
 <?php
 
 namespace Tests;
@@ -49,7 +49,7 @@ abstract class TestCase extends BaseTestCase
 ## Using Pest
 Just replace the `uses` line in your `Pest.php` file
 
-```php
+```diff
 -use Illuminate\Foundation\Testing\RefreshDatabase;
 +use App\Tests\Traits\FastRefreshDatabase;
 
