@@ -57,4 +57,7 @@ Just replace the `uses` line in your `Pest.php` file
 +uses(FastRefreshDatabase::class)->in(__DIR__);
 ```
 
+## Ignoring MigrationChecksum.txt
+Next, add "MigrationChecksum.txt" to your .gitignore file. 
+
 Copyright (c) 2022 Plannr Technologies Ltd
