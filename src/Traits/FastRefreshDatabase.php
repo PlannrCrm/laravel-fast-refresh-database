@@ -103,6 +103,6 @@ trait FastRefreshDatabase
      */
     protected function getMigrationChecksumFile(): string
     {
-        return base_path('migrationChecksum.txt');
+        return storage_path('app/migrationChecksum.txt');
     }
 }
