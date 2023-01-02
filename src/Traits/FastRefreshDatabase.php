@@ -82,7 +82,7 @@ trait FastRefreshDatabase
      */
     protected function getCachedMigrationChecksum(): ?string
     {
-        return rescue(static fn () => file_get_contents($this->getMigrationChecksumFile()), null, false);
+        return rescue(fn () => file_get_contents($this->getMigrationChecksumFile()), null, false);
     }
 
     /**
