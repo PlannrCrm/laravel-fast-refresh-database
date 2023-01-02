@@ -6,7 +6,7 @@ Have you ever come across an issue where the traditional `RefreshDatabase` trait
 Traditionally, the `RefreshDatabase` trait will run `php artisan migrate:fresh` every time you run tests. After the first test, it will use transactions to roll back the data and run the next one, so subsequent tests are fast, but the initial test is slow. This can  be really annoying if you are used to running a single test, as it could take seconds to run a single test.
 
 ## The Solution
-You don't need to run `php artisan migrate:fresh` every time you run tests, only when you add a new migration or change an old one. The `FastRefreshDatabase` trait will create a checksum of your `migrations` folder as well as your current Git branch, if you are using Git and will create a `migrationChecksum.txt` file in your application. When your migrations change or your branch changes, the checksum won't match the cached one and `php artisan migrate:fresh` is run.
+You don't need to run `php artisan migrate:fresh` every time you run tests, only when you add a new migration or change an old one. The `FastRefreshDatabase` trait will create a checksum of your `migrations` folder as well as your current Git branch. It will then create a checksum file in your application's `storage/app` directory. When your migrations change or your branch changes, the checksum won't match the cached one and `php artisan migrate:fresh` is run.
 
 When you don't make any changes, it will continue to use the same database without refreshing, which can speed up the test time by 100x!
 
@@ -57,7 +57,23 @@ Just replace the `uses` line in your `Pest.php` file
 +uses(FastRefreshDatabase::class)->in(__DIR__);
 ```
 
-## Ignoring MigrationChecksum.txt
-Next, add "MigrationChecksum.txt" to your .gitignore file. 
+## Deleting The Migration Checksum
 
-Copyright (c) 2022 Plannr Technologies Ltd
+Sometimes you may wish to force-update database migrations, to do this, locate the `migrationChecksum.txt` file within `storage/app`.
+
+## Customising the checksum file location
+
+You may customise the migration checksum file location and name by extending the trait and overwriting the `getMigrationChecksumFile()` method.
+
+```php
+protected function getMigrationChecksumFile(): string
+{
+    return storage_path('custom/some-other-file.txt');
+}
+```
+ 
+## Known Issues
+
+### ParaTest Databases
+
+The trait is unaware of what database or environment your tests are running within. Sometimes when running a parallel test after running individual tests, the migration checksum file may not have been deleted. You may have to manually delete the checksum file before running parallel tests.  

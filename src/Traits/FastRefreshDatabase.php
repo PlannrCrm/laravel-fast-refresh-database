@@ -82,7 +82,7 @@ trait FastRefreshDatabase
      */
     protected function getCachedMigrationChecksum(): ?string
     {
-        return rescue(static fn () => file_get_contents(base_path('migrationChecksum.txt')), null, false);
+        return rescue(static fn () => file_get_contents($this->getMigrationChecksumFile()), null, false);
     }
 
     /**
@@ -93,6 +93,16 @@ trait FastRefreshDatabase
      */
     protected function storeMigrationChecksum(string $checksum): void
     {
-        file_put_contents(base_path('migrationChecksum.txt'), $checksum);
+        file_put_contents($this->getMigrationChecksumFile(), $checksum);
+    }
+
+    /**
+     * Provides a configurable migration checksum file path
+     *
+     * @return string
+     */
+    protected function getMigrationChecksumFile(): string
+    {
+        return storage_path('app/migrationChecksum.txt');
     }
 }
