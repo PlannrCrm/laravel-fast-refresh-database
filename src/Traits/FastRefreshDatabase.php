@@ -20,7 +20,7 @@ trait FastRefreshDatabase
      * @return void
      * @throws \JsonException
      */
-    protected function refreshTestDatabase(): void
+    protected function refreshTestDatabase()
     {
         if (! RefreshDatabaseState::$migrated) {
             $cachedChecksum = FastRefreshDatabaseState::$cachedChecksum ??= $this->getCachedMigrationChecksum();
