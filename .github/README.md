@@ -23,7 +23,7 @@ Running a single test, with about 400 migrations.
 Install the package with Composer
 
 ```bash
-composer require plannr/laravel-fast-refresh-database
+composer require plannr/laravel-fast-refresh-database --dev
 ```
 
 ## Adding to your TestCase
