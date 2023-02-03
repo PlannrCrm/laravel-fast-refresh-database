@@ -20,7 +20,7 @@ trait FastRefreshDatabase
      * @return void
      * @throws \JsonException
      */
-    protected function refreshTestDatabase()
+    protected function refreshTestDatabase(): void
     {
         if (! RefreshDatabaseState::$migrated) {
             $cachedChecksum = FastRefreshDatabaseState::$cachedChecksum ??= $this->getCachedMigrationChecksum();
@@ -48,30 +48,32 @@ trait FastRefreshDatabase
      */
     protected function calculateMigrationChecksum(): string
     {
+        // Filter out non-existing paths
+        $paths = collect($this->getMigrationPaths())
+            ->map(fn ($path) => realpath($path))
+            ->toArray();
+
         $finder = Finder::create()
-            ->in(database_path('migrations'))
+            ->in($paths)
             ->name('*.php')
             ->ignoreDotFiles(true)
             ->ignoreVCS(true)
             ->files();
 
-        $migrations = array_map(static function (SplFileInfo $fileInfo) {
-            return [$fileInfo->getMTime(), $fileInfo->getPath()];
-        }, iterator_to_array($finder));
-
-        // Reset the array keys so there is less data
-
-        $migrations = array_values($migrations);
+        // Get all the migration files and their last modified date
+        $migrations = collect(iterator_to_array($finder))
+            ->map(fn (SplFileInfo $fileInfo) => [$fileInfo->getMTime()])
+            // Reset the array keys so there is less data
+            ->values()
+            ->toArray();
 
         // Add the current git branch
-
         $checkBranch = new Process(['git', 'branch', '--show-current']);
         $checkBranch->run();
 
         $migrations['gitBranch'] = trim($checkBranch->getOutput());
 
         // Create a hash
-
         return hash('sha256', json_encode($migrations, JSON_THROW_ON_ERROR));
     }
 
@@ -94,6 +96,30 @@ trait FastRefreshDatabase
     protected function storeMigrationChecksum(string $checksum): void
     {
         file_put_contents($this->getMigrationChecksumFile(), $checksum);
+    }
+
+    /**
+     * The paths that should be used to discover migrations
+     *
+     * @return array<string>
+     */
+    protected function getMigrationPaths(): array
+    {
+        return [
+            database_path('migrations'),
+            ...app('migrator')->paths(),
+            ...$this->getCustomMigrationPaths(),
+        ];
+    }
+
+    /**
+     * Custom migration paths that should be used when discovering migrations
+     *
+     * @return array<string>
+     */
+    protected function getCustomMigrationPaths(): array
+    {
+        return [];
     }
 
     /**

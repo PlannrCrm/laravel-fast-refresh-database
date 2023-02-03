@@ -71,7 +71,22 @@ protected function getMigrationChecksumFile(): string
     return storage_path('custom/some-other-file.txt');
 }
 ```
- 
+
+## Customising the migration path locations
+
+You may customise the migration path locations by extending the trait and overwriting the `getCustomMigrationPaths()` method.
+
+```php
+protected function getCustomMigrationPaths(): array
+{
+    return [
+        database_path('other-migrations'),
+    ];
+}
+```
+
+If you require full control over the migration paths, you may overwrite the `getMigrationPaths()` method.
+
 ## Known Issues
 
 ### ParaTest Databases
