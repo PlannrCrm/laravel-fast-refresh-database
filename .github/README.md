@@ -54,7 +54,7 @@ Just replace the `uses` line in your `Pest.php` file
 +use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 
 -uses(RefreshDatabase::class)->in(__DIR__);
-+uses(FastRefreshDatabase::class)->in(__DIR__);
+uses(FastRefreshDatabase::class)->in('Feature');
 ```
 
 ## Deleting The Migration Checksum
