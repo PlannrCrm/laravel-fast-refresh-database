@@ -8,6 +8,11 @@
             "Plannr\\Laravel\\FastRefreshDatabase\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Plannr\\Laravel\\FastRefreshDatabase\\Tests\\": "tests"
+        }
+    },
     "authors": [
         {
             "name": "Sam Carré",
@@ -39,6 +44,13 @@
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Plannr\\Laravel\\FastRefreshDatabase\\FastRefreshDatabaseServiceProvider"
+            ]
         }
     }
 }
