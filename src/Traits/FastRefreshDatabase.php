@@ -48,16 +48,23 @@ trait FastRefreshDatabase
      */
     protected function calculateMigrationChecksum(): string
     {
-        $finder = Finder::create()
-            ->in(database_path('migrations'))
-            ->name('*.php')
-            ->ignoreDotFiles(true)
-            ->ignoreVCS(true)
-            ->files();
+        // Get all loaded migration paths.
+        $migrations = collect(app('migrator')->paths())
+            // There might be loaded paths that does not exist. We need to filter those out.
+            ->map(fn ($path) => realpath($path))
+            ->filter()
+            ->flatMap(function ($path) {
+                $finder = Finder::create()
+                    ->in($path)
+                    ->name('*.php')
+                    ->ignoreDotFiles(true)
+                    ->ignoreVCS(true)
+                    ->files();
 
-        $migrations = array_map(static function (SplFileInfo $fileInfo) {
-            return [$fileInfo->getMTime(), $fileInfo->getPath()];
-        }, iterator_to_array($finder));
+                return array_map(static function (SplFileInfo $fileInfo) {
+                    return [$fileInfo->getMTime(), $fileInfo->getPath()];
+                }, iterator_to_array($finder));
+            })->toArray();
 
         // Reset the array keys so there is less data
 
