@@ -22,9 +22,9 @@ trait FastRefreshDatabase
      */
     protected function refreshTestDatabase()
     {
-        if (! RefreshDatabaseState::$migrated) {
-            $cachedChecksum = FastRefreshDatabaseState::$cachedChecksum ??= $this->getCachedMigrationChecksum();
-            $currentChecksum = FastRefreshDatabaseState::$currentChecksum ??= $this->calculateMigrationChecksum();
+        if (!RefreshDatabaseState::$migrated) {
+            $cachedChecksum = FastRefreshDatabaseState::$cachedChecksum ? FastRefreshDatabaseState::$cachedChecksum : $this->getCachedMigrationChecksum();
+            $currentChecksum = FastRefreshDatabaseState::$currentChecksum ? FastRefreshDatabaseState::$cachedChecksum : $this->calculateMigrationChecksum();
 
             if ($cachedChecksum !== $currentChecksum) {
                 $this->artisan('migrate:fresh', $this->migrateFreshUsing());
@@ -48,16 +48,22 @@ trait FastRefreshDatabase
      */
     protected function calculateMigrationChecksum(): string
     {
-        $finder = Finder::create()
-            ->in(database_path('migrations'))
-            ->name('*.php')
-            ->ignoreDotFiles(true)
-            ->ignoreVCS(true)
-            ->files();
+        $migrations = collect(app('migrator')->paths())
+            // There might be loaded paths that does not exist. We need to filter those out.
+            ->map(fn ($path) => realpath($path))
+            ->filter()
+            ->flatMap(function ($path) {
+                $finder = Finder::create()
+                    ->in($path)
+                    ->name('*.php')
+                    ->ignoreDotFiles(true)
+                    ->ignoreVCS(true)
+                    ->files();
 
-        $migrations = array_map(static function (SplFileInfo $fileInfo) {
-            return [$fileInfo->getMTime(), $fileInfo->getPath()];
-        }, iterator_to_array($finder));
+                return array_map(static function (SplFileInfo $fileInfo) {
+                    return [$fileInfo->getMTime(), $fileInfo->getPath()];
+                }, iterator_to_array($finder));
+            })->toArray();
 
         // Reset the array keys so there is less data
 
@@ -82,7 +88,10 @@ trait FastRefreshDatabase
      */
     protected function getCachedMigrationChecksum(): ?string
     {
-        return rescue(fn () => file_get_contents($this->getMigrationChecksumFile()), null, false);
+        $callbackFunc = function () {
+            return file_get_contents($this->getMigrationChecksumFile());
+        };
+        return rescue($callbackFunc, null, false);
     }
 
     /**

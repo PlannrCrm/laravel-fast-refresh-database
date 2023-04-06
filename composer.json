@@ -16,7 +16,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^8.1",
+        "php": "^7.2.1",
         "symfony/process": "^5.0|^6.0"
     },
     "require-dev": {
