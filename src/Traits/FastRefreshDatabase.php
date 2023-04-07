@@ -50,7 +50,9 @@ trait FastRefreshDatabase
     {
         $migrations = collect(app('migrator')->paths())
             // There might be loaded paths that does not exist. We need to filter those out.
-            ->map(fn ($path) => realpath($path))
+            ->map(function ($path) {
+                return realpath($path);
+            })
             ->filter()
             ->flatMap(function ($path) {
                 $finder = Finder::create()
