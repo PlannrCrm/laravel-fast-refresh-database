@@ -5,6 +5,8 @@ namespace Plannr\Laravel\FastRefreshDatabase\Traits;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
+use Illuminate\Database\ConnectionInterface;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
@@ -103,6 +105,10 @@ trait FastRefreshDatabase
      */
     protected function getMigrationChecksumFile(): string
     {
-        return storage_path('app/migrationChecksum.txt');
+        $connection = $this->app[ConnectionInterface::class];
+
+        $databaseNameSlug = Str::slug($connection->getDatabaseName());
+
+        return storage_path("app/migration-checksum_{$databaseNameSlug}.txt");
     }
 }
