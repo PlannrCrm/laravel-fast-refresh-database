@@ -12,6 +12,6 @@
 */
 
 
-use Plannrc\LaravelFastRefreshDatabase\Traits\FastRefreshDatabase;
+use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 
 uses(FastRefreshDatabase::class)->in(__DIR__);

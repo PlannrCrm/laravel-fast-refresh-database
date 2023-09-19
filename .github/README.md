@@ -59,7 +59,7 @@ uses(FastRefreshDatabase::class)->in('Feature');
 
 ## Deleting The Migration Checksum
 
-Sometimes you may wish to force-update database migrations, to do this, locate the `migrationChecksum.txt` file within `storage/app`.
+Sometimes you may wish to force-update database migrations, to do this, locate the `migration-checksum_{Database Name Slug}.txt` file within `storage/app`.
 
 ## Customising the checksum file location
 
@@ -71,9 +71,7 @@ protected function getMigrationChecksumFile(): string
     return storage_path('custom/some-other-file.txt');
 }
 ```
- 
-## Known Issues
 
 ### ParaTest Databases
 
-The trait is unaware of what database or environment your tests are running within. Sometimes when running a parallel test after running individual tests, the migration checksum file may not have been deleted. You may have to manually delete the checksum file before running parallel tests.  
+Parallel testing databases contain tokens that serve as unique identifiers for each test runner. This makes the trait inherently able to support parallel testing without any extra effort, because the database name is stored in the checksum file name.
