@@ -1,44 +1,31 @@
 {
     "name": "plannr/laravel-fast-refresh-database",
     "description": "Refresh your database faster than you've ever seen before 🚀",
-    "type": "library",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Plannr\\Laravel\\FastRefreshDatabase\\": "src/"
-        }
-    },
+    "type": "library",
     "authors": [
         {
             "name": "Sam Carré",
             "email": "29132017+Sammyjo20@users.noreply.github.com"
         }
     ],
-    "minimum-stability": "stable",
     "require": {
         "php": "^8.1",
-        "symfony/process": "^5.0|^6.0"
+        "symfony/process": "^6.0 || ^7.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^7.17",
-        "pestphp/pest": "^1.22",
         "friendsofphp/php-cs-fixer": "^3.13",
-        "symfony/var-dumper": "^6.2"
+        "orchestra/testbench": "^9.0"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Plannr\\Laravel\\FastRefreshDatabase\\": "src/"
+        }
     },
     "scripts": {
-        "post-autoload-dump": [
-            "@php vendor/bin/testbench package:discover --ansi"
-        ],
-        "test": [
-            "./vendor/bin/pest"
-        ],
         "fix-code": [
             "./vendor/bin/php-cs-fixer fix"
         ]
-    },
-    "config": {
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        }
     }
 }

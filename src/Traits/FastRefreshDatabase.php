@@ -3,11 +3,11 @@
 namespace Plannr\Laravel\FastRefreshDatabase\Traits;
 
 use SplFileInfo;
+use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
-use Illuminate\Database\ConnectionInterface;
-use Illuminate\Support\Str;
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Database\ConnectionInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Plannr\Laravel\FastRefreshDatabase\Data\FastRefreshDatabaseState;
